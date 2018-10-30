@@ -34,28 +34,28 @@ This project is to bring the retro game back and reminisce the glory of dot matr
     
 ### Implementation Timeline
   * Day 1 - 10/30
-    * Implement board size with border
-    * Implement snake with length of 3
-    * Implement snake movement to go forward. Tail to follow head
+    - [ ] Implement board size with border
+    - [ ] Implement snake with length of 3
+    - [ ] Implement snake movement to go forward. Tail to follow head
     
   * Day 2 - 10/31
-    * Implement snake movement with arrow keys
-    * Implement game over if snake hit a border
+    - [ ] Implement snake movement with arrow keys
+    - [ ] Implement game over if snake hit a border
 
   * Day 3 - 11/1
-    * Implement generate a random dot within border
-    * Implement snake length increase by 1 if snake collide with dot
-    * Implement restart game
+    - [ ] Implement generate a random dot within border
+    - [ ] Implement snake length increase by 1 if snake collide with dot
+    - [ ] Implement restart game
     
   * Day 4 - 11/2
-    * Implement current score count for current game
-    * Implement current session high score for current session
-    * style game with cell phone around digital screen
+    - [ ] Implement current score count for current game
+    - [ ] Implement current session high score for current session
+    - [ ] style game with cell phone around digital screen
     
   * Day 5 - 11/3
-    * Allow user to change cell phone model
-    * Allow user to increase game speed
-    * Allow user to select game to be colored
+    - [ ] Allow user to change cell phone model
+    - [ ] Allow user to increase game speed
+    - [ ] Allow user to select game to be colored
 
 
     
