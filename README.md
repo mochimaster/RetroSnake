@@ -28,9 +28,9 @@ This project is to bring the retro game back and reminisce the glory of dot matr
   * If snake head collides with game board border, game is over
   * Score is calculated based on length of snake
 
-* Architecture and Technologies
-    * Vanilla Javascript for overall structure and game logic
-    * HTML5 Canvas for DOM manipulation and rendering
+### Architecture and Technologies
+  * Vanilla Javascript for overall structure and game logic
+  * HTML5 Canvas for DOM manipulation and rendering
     
 ### Implementation Timeline
   * Day 1 - 10/30
