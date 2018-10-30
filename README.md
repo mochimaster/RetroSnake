@@ -15,6 +15,14 @@ This project is to bring the retro game back and reminisce the glory of dot matr
   * Game records high score
   * Game can be restarted
   * Game is controlled by keyboard input
+  
+### Wireframes
+
+This app will consist of a single screen with the simulation canvas, playback controls and nav links to the Github and my LinkedIn.  
+
+Playback controls along the top will include Start, Pause, Restart and Reset buttons.
+
+![wireframe](images/wireframe.png)
 
 ### Game Design 
 
