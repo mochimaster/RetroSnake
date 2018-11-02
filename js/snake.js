@@ -4,14 +4,14 @@ import Food from './food';
 class Snake {
     constructor(game){
         this.board = game;
-        // debugger
+        debugger
         
         // starting location
-        this.x = Math.floor(500 / 2);
-        this.y = Math.floor(500 / 2);
+        this.x = Math.floor(Game.WIDTH / 2);
+        this.y = Math.floor(Game.HEIGHT / 2);
 
         // speed and direction
-        this.xspeed = 1/2;
+        this.xspeed = 1;
         this.yspeed = 0;
 
         // length
@@ -36,8 +36,8 @@ class Snake {
             this.body[0][1]+this.yspeed])
 
         if (this.eatFood()){
-            this.body.unshift([this.body[0][0] + this.xspeed,
-            this.body[0][1] + this.yspeed])
+            // this.body.unshift([this.body[0][0] + this.xspeed,
+            // this.body[0][1] + this.yspeed])
         } else {
             this.body.pop();
         }
@@ -59,10 +59,18 @@ class Snake {
         }
     }
 
+    drawScore(){
+        const canvas = document.getElementById("canvas");
+        let score = canvas.getContext("2d");
+        score.fillStyle = "black";
+        score.font = "italic " + 20 + "pt Arial ";
+        score.fillText(this.score, 10, 25);
+    }
+
     eatFood(){
         debugger
-        if (Math.abs(this.body[0][0] - this.board.food.x) <=10 && 
-            Math.abs(this.body[0][1] - this.board.food.y) <=10 ){
+        if (Math.abs(this.body[0][0] - this.board.food.x) <=5 && 
+            Math.abs(this.body[0][1] - this.board.food.y) <=5 ){
             console.log("ATE FOOD");
             debugger
             // this.body.push([this.board.food.x+this.xspeed, this.board.food.y+this.yspeed]);
@@ -74,13 +82,15 @@ class Snake {
 
             this.board.food.generateFood();
             this.score += 10;
+
+
+
             // this.length += 5;
             return true
         } else {
             return false
         }
     }
-    
 
     dead() {
         // debugger
@@ -95,9 +105,12 @@ class Snake {
     move(){
         //move snake forward
         this.drawSnake();
+        this.drawScore();
+
         if(!this.dead()){
             this.updateLocation();
             this.eatFood()
+
         }
 
     }

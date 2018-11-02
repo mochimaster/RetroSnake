@@ -12,7 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", game.handleKeyPress.bind(game));
 
     // new GameView(game, ctx).start();
+
+        
     game.draw();
+
+    // game.start()
 
     // for(let i=0;i<1000;i++){
     // while(!game.dead){

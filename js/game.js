@@ -81,13 +81,29 @@ class Game {
         );
     }
 
+    over(){
+        if(this.snake.dead){
+            return true
+        } else {
+            return false
+        }
+    }
+
+    start(){
+
+        while(!this.over()){
+            this.snake.move()
+        }
+        window.alert("Game over.");
+
+    }
+
     draw() {
         // debugger;
         window.requestAnimFrame(this.draw.bind(this));
         
         this.drawBoard();
         this.food.drawFood();
-
         this.snake.move();
 
         // if (!this.snake.dead()){
