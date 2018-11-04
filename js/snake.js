@@ -80,8 +80,6 @@ class Snake {
 
         if (Math.abs(this.body[0][0] - this.board.food.x) <=5 && 
             Math.abs(this.body[0][1] - this.board.food.y) <=5 ){
-            console.log("ATE FOOD");
-
             // this.body.push([this.board.food.x+this.xspeed, this.board.food.y+this.yspeed]);
 
             // this.body.push([this.body[this.body.length - 1][0]+(this.xspeed*5),
@@ -126,7 +124,6 @@ class Snake {
 
     hitSelf(){
         for(let i=1; i<this.body.length; i++){
-            console.log("this.body[0][0]: ${this.body[0][0]}");
             if (this.body[0][0] === this.body[i][0] &&
                 this.body[0][1] === this.body[i][1]){
                     debugger
