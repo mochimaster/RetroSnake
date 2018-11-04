@@ -1,4 +1,54 @@
-canvas{
-    top: 50vh;
-    left: 50vh;
+body{
+    margin: 0px;
+    overflow: hidden;
 }
+
+
+#background{
+    /* border: 2px solid black; */
+    background: url("./images/background.jpg");
+    /* background: url("./images/background.jpg") no-repeat scroll center top transparent; */
+    height: 100%;
+    width: 100%;
+    background-size: 1600px 1600px;
+    z-index: -1;
+    /* background-position: -375px -50px;  */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 0px -100px;
+    min-width: 1600px;
+    max-width: 1600px;
+    /* min-width: 100%;
+    max-width: 100%; */
+    /* min-height: 100%; */
+    min-height: 1000px;
+    max-height: 1000px;
+    /* min-height: 100%;
+    max-height: 100%; */
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}
+
+canvas{
+    height: 100%;
+    width: 100%;
+        min-width: 585px;
+    max-width: 377px;
+    min-height: 352px;
+    max-height: 228px;
+    position: relative;
+    left: 620px;
+    top: 373px;
+
+
+
+
+    /* position: 200px 200px; */
+
+}
+
+
+
+@import url(https://fonts.googleapis.com/css?family=Lobster);

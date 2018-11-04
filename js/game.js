@@ -25,11 +25,31 @@ class Game {
         let x = 0;
         let snake;
 
+        this.WIDTH = 500;
+        this.HEIGHT = 500;
+        this.BORDER = 10;
+        this.TOPSCOREHEIGHT = 25;
+        this.INNERRIGHT = this.WIDTH - this.BORDER * 2;
+        this.INNERLEFT = this.BORDER;
+        this.INNERBOTTOM = this.HEIGHT - this.BORDER * 2;
+        this.INNERTOP = this.BORDER + this.TOPSCOREHEIGHT;
+
         this.drawBoard();
         this.snake = new Snake(this);
         this.food = new Food(this);
         this.draw();
         // document.addEventListener("keydown", this.handleKeyPress);
+
+
+        // fps control
+        this.stop = false;
+        this.frameCount = 0;
+        this.fps;
+        this.fpsInterval;
+        this.startTime;
+        this.now;
+        this.then;
+        this.elapsed;
 
     }
 
@@ -49,22 +69,24 @@ class Game {
 
         const canvas = document.getElementById("canvas");
         let ctx = canvas.getContext("2d");
-        const backgroundColor = "rgb(156, 201, 44)";
-        const objectColor = "rgb(56, 80, 12)";
-        let width = 500;
-        let height = 500;
+        // const backgroundColor = "rgb(156, 201, 44)";
+        const backgroundColor = "rgb(97, 159, 116)";
+        // const objectColor = "rgb(56, 80, 12)";
+        const objectColor = "rgb(15, 22, 20)";
+        // let width = 500;
+        // let height = 500;
 
-        let topScoreHeight = 25;
-        let border = 10;
+        // let TOPSCOREHEIGHT = 25;
+        // let border = 10;
 
         // draw background
         ctx.fillStyle = backgroundColor;
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 
         // draw top bar to contain score
         ctx.beginPath();
-        ctx.moveTo(border, topScoreHeight);
-        ctx.lineTo(width - border, topScoreHeight);
+        ctx.moveTo(this.BORDER, this.TOPSCOREHEIGHT);
+        ctx.lineTo(this.WIDTH - this.BORDER, this.TOPSCOREHEIGHT);
         ctx.closePath();
         ctx.fill();
         ctx.strokeStyle = objectColor;
@@ -74,10 +96,10 @@ class Game {
         // draw border
         // taking into account that border draws in the middle
         ctx.strokeRect(
-        border,
-        topScoreHeight + 10,
-        width - border * 2,
-        height - border * 2 - topScoreHeight
+        this.BORDER,
+        this.TOPSCOREHEIGHT + 10,
+        this.WIDTH - this.BORDER * 2,
+        this.HEIGHT - this.BORDER * 2 - this.TOPSCOREHEIGHT
         );
     }
 
@@ -90,7 +112,6 @@ class Game {
     }
 
     start(){
-
         while(!this.over()){
             this.snake.move()
         }
@@ -98,13 +119,37 @@ class Game {
 
     }
 
+    startAnimating(fps) {
+        this.fpsInterval = 1000 / fps;
+        this.then = Date.now();
+        this.startTime = this.then;
+        this.draw();
+    }
+
     draw() {
         // debugger;
+        // request another frame
         window.requestAnimFrame(this.draw.bind(this));
-        
-        this.drawBoard();
-        this.food.drawFood();
-        this.snake.move();
+
+        // calculate elapsed time since last loop
+        this.now = Date.now();
+        this.elapsed = this.now - this.then;
+
+        // if enough time has elapsed, draw the next frame
+            
+        if (this.elapsed > this.fpsInterval){
+
+            // Get ready for next frame by setting then=now, but also adjust for your
+            // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
+
+            this.then = this.now - (this.elapsed % this.fpsInterval);
+
+            this.drawBoard();
+            this.food.drawFood();
+            this.snake.move();
+
+        }
+     
 
         // if (!this.snake.dead()){
         //     this.snake.updateLocation();
@@ -119,36 +164,37 @@ class Game {
         // debugger
         // this.xspeed = 1;
         // this.yspeed = 0;
-        if(!event) {return}
-        if(event.keyCode === 37 ){
-            console.log("PRESSED LEFT")
-            this.snake.xspeed = -1
-            this.snake.yspeed = 0;
+        let moveSpeed = 5;
 
+        if(!event) {return}
+        if(event.keyCode === 37 && this.snake.xspeed <= 0){
+            // debugger
+            console.log("PRESSED LEFT")
+            this.snake.xspeed = moveSpeed * -1;
+            this.snake.yspeed = 0;
         }
-        else if(event.keyCode === 38 ){
+        else if (event.keyCode === 38 && this.snake.yspeed <= 0 ){
             console.log("PRESSED UP")
             this.snake.xspeed = 0
-            this.snake.yspeed = -1;
+            this.snake.yspeed = moveSpeed * -1;
         }
-        else if(event.keyCode === 39 ){
+        else if(event.keyCode === 39 && this.snake.xspeed >= 0){
             console.log("PRESSED RIGHT")
-            this.snake.xspeed = 1
+            this.snake.xspeed = moveSpeed;
             this.snake.yspeed = 0;
 
         }
-        else if(event.keyCode === 40 ){
+        else if (event.keyCode === 40 && this.snake.yspeed >= 0){
             console.log("PRESSED DOWN")
             this.snake.xspeed = 0
-            this.snake.yspeed = 1;
+            this.snake.yspeed = moveSpeed;
         }
     }
 
 }
 
 // module.exports = Game;
-Game.WIDTH = 500;
-Game.HEIGHT = 500;
+
 export default Game;
 
 
