@@ -176,13 +176,13 @@ class Game {
     }
 
     drawHighScore(){
-        if(this.sessionHighScore>0){
-            let score = canvas.getContext("2d");
-            score.fillStyle = this.OBJECTCOLOR;
-            // score.font = "italic " + 20 + "pt Arial ";
-            score.font = "17px trsMillion ";
-            score.fillText("HIGH SCORE : "+this.sessionHighScore, this.WIDTH / 2 + 15, this.TOPSCOREHEIGHT - 5);
-        }
+        // if(this.sessionHighScore>0){
+        let score = canvas.getContext("2d");
+        score.fillStyle = this.OBJECTCOLOR;
+        // score.font = "italic " + 20 + "pt Arial ";
+        score.font = "17px trsMillion ";
+        score.fillText("HIGH SCORE : "+this.sessionHighScore, this.WIDTH / 2 + 15, this.TOPSCOREHEIGHT - 5);
+        // }
     }
 
     recordSessionHighScore(){

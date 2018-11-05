@@ -49,7 +49,6 @@ class Snake {
         let snakeImage = canvas.getContext("2d");
 
         snakeImage.fillStyle = objectColor;
-        // snakeImage.fillRect(this.x, this.y, 5, 5);
 
         for(let i=0; i<this.body.length; i++){
             snakeImage.fillRect(this.body[i][0], this.body[i][1], 7, 7);
@@ -63,24 +62,15 @@ class Snake {
         // score.font = "italic " + 20 + "pt Arial ";
         // score.font = 18 + "pt digital-clock-font";
         score.font = "17px trsMillion";
-        score.fillText(this.score, 10, 20);
-        
+        score.fillText(this.score, 10, 20);   
     }
 
     eatFood(){
-
         if (Math.abs(this.body[0][0] - this.board.food.x) <=5 && 
             Math.abs(this.body[0][1] - this.board.food.y) <=5 ){
-            // this.body.push([this.board.food.x+this.xspeed, this.board.food.y+this.yspeed]);
-
-            // this.body.push([this.body[this.body.length - 1][0]+(this.xspeed*5),
-            //     this.body[this.body.length - 1][1] + (this.yspeed * 5)]);
-
-            // this.body.unshift(this.board.food.x, this.board.food.y)
 
             this.board.food.generateFood();
             this.score += 10;
-            // this.length += 5;
             return true
         } else {
             return false
@@ -98,8 +88,10 @@ class Snake {
     }
 
     hitBorder(){
-        if (this.head()[0] > this.board.WIDTH - this.board.BORDER*2 || this.head()[0] < this.board.BORDER || 
-            this.head()[1] > this.board.HEIGHT - this.board.BORDER*2 || this.head()[1] < this.board.BORDER + this.board.TOPSCOREHEIGHT) {
+        if (this.head()[0] > this.board.WIDTH - this.board.BORDER*2 || 
+            this.head()[0] < this.board.BORDER || 
+            this.head()[1] > this.board.HEIGHT - this.board.BORDER*2 || 
+            this.head()[1] < this.board.BORDER + this.board.TOPSCOREHEIGHT) {
             return true
         } else {
             return false
