@@ -11,8 +11,8 @@ class Food {
         this.y = Math.floor(Math.random() * (this.board.INNERBOTTOM - this.board.INNERTOP + 3) + this.board.INNERTOP +3 )
 
         for (let i = 0; i < this.board.snake.body.length; i++) {
-            if (this.board.snake.body[i][0] >= this.x &&
-                this.board.snake.body[i][1] >= this.y) {
+            if (this.board.snake.body[i][0] === this.x &&
+                this.board.snake.body[i][1] === this.y) {
                     this.generateFood()
                 }
         }

@@ -59,7 +59,6 @@ class Game {
     }
 
     draw() {
-        // debugger;
         // request another frame
         window.requestAnimFrame(this.draw.bind(this));
 
@@ -99,13 +98,11 @@ class Game {
     }
 
     restart(){
-        // debugger;
         this.food.generateFood();
         this.snake.xspeed = this.snake.moveSpeed ;
         this.snake.yspeed = 0;
         this.snake.body = [[this.WIDTH / 2, this.HEIGHT / 2]];
         if (this.snake.score > this.sessionHighScore) {
-            debugger
             this.sessionHighScore = this.snake.score; // SET HIGH SCORE
         }
         this.snake.score = 0;
@@ -239,38 +236,36 @@ class Game {
         
         if(!event) {return}
         if (event.keyCode === 37 && this.snake.xspeed <= 0 && this.snake.turning === false){
-            // debugger
-            console.log("PRESSED LEFT")
+            // console.log("PRESSED LEFT")
             this.snake.xspeed = moveSpeed * -1;
             this.snake.yspeed = 0;
             this.snake.turning = true;
         }
         else if (event.keyCode === 38 && this.snake.yspeed <= 0 && this.snake.turning === false){
-            console.log("PRESSED UP")
+            // console.log("PRESSED UP")
             this.snake.xspeed = 0
             this.snake.yspeed = moveSpeed * -1;
             this.snake.turning = true;
         }
         else if (event.keyCode === 39 && this.snake.xspeed >= 0 && this.snake.turning === false){
-            console.log("PRESSED RIGHT")
+            // console.log("PRESSED RIGHT")
             this.snake.xspeed = moveSpeed;
             this.snake.yspeed = 0;
             this.snake.turning = true;
         }
         else if (event.keyCode === 40 && this.snake.yspeed >= 0 && this.snake.turning === false) {
-               console.log("PRESSED DOWN");
+            //    console.log("PRESSED DOWN");
                this.snake.xspeed = 0;
                this.snake.yspeed = moveSpeed;
                this.snake.turning = true;
              } 
         else if (event.keyCode === 27) {
-               console.log("PRESSED ESC");
+            //    console.log("PRESSED ESC");
             this.PAUSED = !this.PAUSED;
         }
 
         else if (event.keyCode === 13){
-            debugger
-            console.log("PRESSED ENTER");
+            // console.log("PRESSED ENTER");
 
             // do nothing if game is paused
             if(this.PAUSED === true){
