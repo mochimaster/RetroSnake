@@ -1,4 +1,95 @@
+/* working font */
+@font-face {
+    font-family: trsMillion;
+    src: url(trs-million.ttf);
+}
+
+/* non working font */
+@font-face {
+    font-family: pressStart2P;
+    src: url(https://fonts.googleapis.com/css?family=Press+Start+2P);
+}
+
+body{
+    margin: 0px;
+    overflow: hidden;
+    font-family: 'Raleway Dots', cursive;
+    font-size: 30px;
+}
+
+#background{
+    /* border: 2px solid black; */
+    background: url("./images/background.jpg");
+    /* background: url("./images/background.jpg") no-repeat scroll center top transparent; */
+    height: 100%;
+    width: 100%;
+    background-size: 1600px 1600px;
+    z-index: -1;
+    /* background-position: -375px -50px;  */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 0px -180px;
+    /* background-position: 50% -180px; */
+    min-width: 1600px;
+    max-width: 1600px;
+    /* min-width: 100%;
+    max-width: 100%; */
+    /* min-height: 100%; */
+    min-height: 1000px;
+    max-height: 1000px;
+    /* min-height: 100%;
+    max-height: 100%; */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 canvas{
-    top: 50vh;
-    left: 50vh;
+    height: 100%;
+    width: 100%;
+    min-width: 366px;
+    max-width: 366px;
+    min-height: 294px;
+    max-height: 294px;
+    position: relative;
+    left: 620px;
+    /* left: 33.5%; */
+    top: 258px;
+
+    /* font-family: "Press Start 2P", cursive; */
+    font-family: 'trsMillion', cursive;
+    font-size: 30px;
+    /* position: 200px 200px; */
+}
+
+.developer-links {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.linkedin-link{
+  background-image: url("./images/linked-in.png"); /* image provided by Linked-In is under copywrite law */
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  margin-right: 10px;
+  margin-top: 10px;
+  top: 0;
+}
+
+.github-link{
+  background-image: url("./images/github.png"); /* image provided by Github is under copywrite law */
+  background-size: cover;
+  height: 25px;
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 25px;
+  top: 0;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Lobster);
+
+* {
+   font-family: pressStart2P;
+   font-size: 50px;
 }
