@@ -18,9 +18,7 @@ body{
 }
 
 #background{
-    /* border: 2px solid black; */
     background: url("./images/background.jpg");
-    /* background: url("./images/background.jpg") no-repeat scroll center top transparent; */
     height: 100%;
     width: 100%;
     background-size: 1600px 1600px;
@@ -53,13 +51,9 @@ canvas{
     max-height: 294px;
     position: relative;
     left: 620px;
-    /* left: 33.5%; */
     top: 258px;
-
-    /* font-family: "Press Start 2P", cursive; */
     font-family: 'trsMillion', cursive;
     font-size: 30px;
-    /* position: 200px 200px; */
 }
 
 .developer-links {
@@ -85,11 +79,4 @@ canvas{
   margin-right: 10px;
   width: 25px;
   top: 0;
-}
-
-@import url(https://fonts.googleapis.com/css?family=Lobster);
-
-* {
-   font-family: pressStart2P;
-   font-size: 50px;
 }
