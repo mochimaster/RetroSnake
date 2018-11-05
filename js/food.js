@@ -7,8 +7,10 @@ class Food {
     }
 
     generateFood(){
-        this.x = Math.floor(Math.random() * (this.board.INNERRIGHT - this.board.INNERLEFT + 3) + this.board.INNERLEFT +3 ); // -3 for half of border lineWidth
-        this.y = Math.floor(Math.random() * (this.board.INNERBOTTOM - this.board.INNERTOP + 3) + this.board.INNERTOP +3 )
+        this.x = Math.floor(Math.random() * (this.board.INNERRIGHT - 
+            this.board.INNERLEFT + 3) + this.board.INNERLEFT +3 ); // -3 for half of border lineWidth
+        this.y = Math.floor(Math.random() * (this.board.INNERBOTTOM - 
+            this.board.INNERTOP + 3) + this.board.INNERTOP +3 )
 
         for (let i = 0; i < this.board.snake.body.length; i++) {
             if (this.board.snake.body[i][0] === this.x &&
