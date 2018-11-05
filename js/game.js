@@ -1,12 +1,10 @@
-// const Snake = require("./snake");
 import Snake from './snake';
 import Food from './food';
-// const backgroundColor = 'rgb(156, 201, 44)';
-// const objectColor = "rgb(56, 80, 12)";
-// const canvas = document.getElementById("canvas");
-// // ctx = canvas.getContext('2d');
 
 // shim layer with setTimeout fallback 
+// calculate elapsed time
+// https://stackoverflow.com/questions/19764018/controlling-fps-with-requestanimationframe
+
 window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
@@ -21,12 +19,14 @@ window.requestAnimFrame = (function () {
 
 class Game {
     constructor() {
-        // debugger
+        // GAME START
         let x = 0;
         let snake;
 
-        this.WIDTH = 500;
-        this.HEIGHT = 500;
+        // GAME DESIGN
+        this.OBJECTCOLOR = "rgb(30,27,28)";
+        this.WIDTH = 320;
+        this.HEIGHT = 240;
         this.BORDER = 10;
         this.TOPSCOREHEIGHT = 25;
         this.INNERRIGHT = this.WIDTH - this.BORDER * 2;
@@ -34,11 +34,16 @@ class Game {
         this.INNERBOTTOM = this.HEIGHT - this.BORDER * 2;
         this.INNERTOP = this.BORDER + this.TOPSCOREHEIGHT;
 
+        //GAME STATUS
+        this.STARTED = false;
+        this.PAUSED = false;
+
+        // GAME START
         this.drawBoard();
         this.snake = new Snake(this);
         this.food = new Food(this);
         this.draw();
-        // document.addEventListener("keydown", this.handleKeyPress);
+        this.sessionHighScore = 0;
 
 
         // fps control
@@ -53,31 +58,69 @@ class Game {
 
     }
 
+    draw() {
+        // debugger;
+        // request another frame
+        window.requestAnimFrame(this.draw.bind(this));
+
+        // calculate elapsed time since last loop
+        this.now = Date.now();
+        this.elapsed = this.now - this.then;
+
+        // if enough time has elapsed, draw the next frame
+        if (this.elapsed > this.fpsInterval) {
+            // Get ready for next frame by setting then=now, but also adjust for your
+            // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
+            this.then = this.now - (this.elapsed % this.fpsInterval);
+            this.drawBoard();
+            this.drawHighScore();
+            // start game
+            if (this.STARTED === true && this.PAUSED === false && this.over() === false){
+                this.food.drawFood();
+                this.snake.move();
+            } else {
+                // pause game
+                if(this.STARTED === true && this.PAUSED === true && this.over() === false){
+                    this.drawPause();
+
+                // if game over
+                } else if(this.snake.checkDeath()){
+                    this.drawHighScore();
+                    this.drawGameOver();
+                    this.recordSessionHighScore();
+                
+                //unpause game
+                } else {
+                    this.drawMenu();
+                }
+            }
+
+        }
+    }
+
+    restart(){
+        // debugger;
+        this.food.generateFood();
+        this.snake.xspeed = this.snake.moveSpeed ;
+        this.snake.yspeed = 0;
+        this.snake.body = [[this.WIDTH / 2, this.HEIGHT / 2]];
+        if (this.snake.score > this.sessionHighScore) {
+            debugger
+            this.sessionHighScore = this.snake.score; // SET HIGH SCORE
+        }
+        this.snake.score = 0;
+    }
+
     addSnake() {
         const snake = new Snake();
         return snake;
     }
 
     drawBoard() {
-        // let particles = [];
-        // let tick = 0;
-
-        // get a reference to the drawing context
-        // size of board
-        // let width = 500;
-        // let height = 500;
-
         const canvas = document.getElementById("canvas");
         let ctx = canvas.getContext("2d");
         // const backgroundColor = "rgb(156, 201, 44)";
         const backgroundColor = "rgb(97, 159, 116)";
-        // const objectColor = "rgb(56, 80, 12)";
-        const objectColor = "rgb(15, 22, 20)";
-        // let width = 500;
-        // let height = 500;
-
-        // let TOPSCOREHEIGHT = 25;
-        // let border = 10;
 
         // draw background
         ctx.fillStyle = backgroundColor;
@@ -89,8 +132,8 @@ class Game {
         ctx.lineTo(this.WIDTH - this.BORDER, this.TOPSCOREHEIGHT);
         ctx.closePath();
         ctx.fill();
-        ctx.strokeStyle = objectColor;
-        ctx.lineWidth = 5;
+        ctx.strokeStyle = this.OBJECTCOLOR;
+        ctx.lineWidth = 4;
         ctx.stroke();
 
         // draw border
@@ -103,8 +146,73 @@ class Game {
         );
     }
 
+    drawMenu(){
+
+        let menu = canvas.getContext("2d");
+        const menuHeight = 60;
+        const fontSize = 15;
+        const xcoordinate = 15;
+
+        menu.fillStyle = this.OBJECTCOLOR;
+        // menu.font = "18px Lobster";
+        menu.font = "23px trsMillion";
+        menu.fillText("Welcome to RetroSnake", 25, menuHeight+10);
+        menu.font = "15px trsMillion";
+        menu.fillText("- Press enter key to start new game", xcoordinate, menuHeight+70);
+        menu.fillText("- Use arrow keys to control snake", xcoordinate, menuHeight+90);
+        menu.fillText("- Press esc key to pause game", xcoordinate, menuHeight+110);
+    }
+
+    drawGameOver(){
+        const canvas = document.getElementById("canvas");
+        let score = canvas.getContext("2d");
+        score.fillStyle = this.OBJECTCOLOR;
+        // score.font = "italic " + 20 + "pt Arial ";
+        score.font = "23px trsMillion ";
+        score.fillText("GAME OVER", this.WIDTH / 2 - 60, this.HEIGHT / 2 - 40);
+
+        score.font = "15px trsMillion ";
+        score.fillText("Your score : "+this.snake.score, this.WIDTH / 2 - 60, this.HEIGHT / 2 + 30);
+
+        score.font = "15px trsMillion ";
+        score.fillText("Press enter for a new game", 60, this.HEIGHT / 2 + 50);
+    }
+
+    drawHighScore(){
+        if(this.sessionHighScore>0){
+            let score = canvas.getContext("2d");
+            score.fillStyle = this.OBJECTCOLOR;
+            // score.font = "italic " + 20 + "pt Arial ";
+            score.font = "17px trsMillion ";
+            score.fillText("HIGH SCORE : "+this.sessionHighScore, this.WIDTH / 2 + 15, this.TOPSCOREHEIGHT - 5);
+        }
+    }
+
+    recordSessionHighScore(){
+        // draw congratulations and record high score
+        if (this.snake.score > this.sessionHighScore) {
+
+            const canvas = document.getElementById("canvas");
+            let score = canvas.getContext("2d");
+            score.fillStyle = this.OBJECTCOLOR;
+            score.font = "15px trsMillion ";
+            score.fillText("CONGRATULATIONS! NEW HIGH SCORE", 45, this.HEIGHT / 2 + 10);
+        }
+    }
+
+    drawPause(){
+        const menuHeight = 60;
+        const xcoordinate = 15;
+        let pause = canvas.getContext("2d");
+        pause.fillStyle = this.OBJECTCOLOR;
+        pause.font = "23px trsMillion";
+        pause.fillText("PAUSED", xcoordinate+100, menuHeight+10);
+        pause.font = "15 trsMillion";
+        pause.fillText("Press esc to continue", xcoordinate+22, menuHeight + 110);
+    }
+
     over(){
-        if(this.snake.dead){
+        if(this.snake.checkDeath()){
             return true
         } else {
             return false
@@ -126,127 +234,60 @@ class Game {
         this.draw();
     }
 
-    draw() {
-        // debugger;
-        // request another frame
-        window.requestAnimFrame(this.draw.bind(this));
-
-        // calculate elapsed time since last loop
-        this.now = Date.now();
-        this.elapsed = this.now - this.then;
-
-        // if enough time has elapsed, draw the next frame
-            
-        if (this.elapsed > this.fpsInterval){
-
-            // Get ready for next frame by setting then=now, but also adjust for your
-            // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
-
-            this.then = this.now - (this.elapsed % this.fpsInterval);
-
-            this.drawBoard();
-            this.food.drawFood();
-            this.snake.move();
-
-        }
-     
-
-        // if (!this.snake.dead()){
-        //     this.snake.updateLocation();
-        //     this.snake.drawSnake();
-        // } else {
-        //     console.log("dead");
-            
-        // }
-    }
-
     handleKeyPress(event){
-        // debugger
-        // this.xspeed = 1;
-        // this.yspeed = 0;
         let moveSpeed = 5;
-
+        
         if(!event) {return}
-        if(event.keyCode === 37 && this.snake.xspeed <= 0){
+        if (event.keyCode === 37 && this.snake.xspeed <= 0 && this.snake.turning === false){
             // debugger
             console.log("PRESSED LEFT")
             this.snake.xspeed = moveSpeed * -1;
             this.snake.yspeed = 0;
+            this.snake.turning = true;
         }
-        else if (event.keyCode === 38 && this.snake.yspeed <= 0 ){
+        else if (event.keyCode === 38 && this.snake.yspeed <= 0 && this.snake.turning === false){
             console.log("PRESSED UP")
             this.snake.xspeed = 0
             this.snake.yspeed = moveSpeed * -1;
+            this.snake.turning = true;
         }
-        else if(event.keyCode === 39 && this.snake.xspeed >= 0){
+        else if (event.keyCode === 39 && this.snake.xspeed >= 0 && this.snake.turning === false){
             console.log("PRESSED RIGHT")
             this.snake.xspeed = moveSpeed;
             this.snake.yspeed = 0;
-
+            this.snake.turning = true;
         }
-        else if (event.keyCode === 40 && this.snake.yspeed >= 0){
-            console.log("PRESSED DOWN")
-            this.snake.xspeed = 0
-            this.snake.yspeed = moveSpeed;
+        else if (event.keyCode === 40 && this.snake.yspeed >= 0 && this.snake.turning === false) {
+               console.log("PRESSED DOWN");
+               this.snake.xspeed = 0;
+               this.snake.yspeed = moveSpeed;
+               this.snake.turning = true;
+             } 
+        else if (event.keyCode === 27) {
+               console.log("PRESSED ESC");
+            this.PAUSED = !this.PAUSED;
+        }
+
+        else if (event.keyCode === 13){
+            debugger
+            console.log("PRESSED ENTER");
+
+            // do nothing if game is paused
+            if(this.PAUSED === true){
+                return nil;
+            }
+
+            this.STARTED = true;
+            this.PAUSED = false;
+            if(this.over() === true){
+                this.restart();
+            } 
+        }
+
+        else if (event.keyCode === 67){
+            this.snake.cheat();
         }
     }
-
 }
 
-// module.exports = Game;
-
 export default Game;
-
-
-// window.requestAnimFrame = (function() {
-//   return (
-//     window.requestAnimationFrame ||
-//     window.webkitRequestAnimationFrame ||
-//     window.mozRequestAnimationFrame ||
-//     window.oRequestAnimationFrame ||
-//     window.msRequestAnimationFrame ||
-//     function(callback) {
-//       window.setTimeout(callback, 1000 / 60);
-//     }
-//   );
-// })();
-
-
-
-// calculate elapsed time
-// https://stackoverflow.com/questions/19764018/controlling-fps-with-requestanimationframe
-// let stop = false;
-// let frameCount = 0
-// let fps, fpsInterval, startTime, now, then, elapsed;
-
-// function startAnimation(fps) {
-//     fpsInterval = 1000 / fps;
-//     then = Date.now();
-//     startTime = then;
-//     this.draw();
-// }
-
-
-
-// function draw(){
-//     drawBoard();
-//     // window.requestAnimFrame(drawIt);
-//     // request another frame
-//     window.requestAnimFrame(draw);
-//     const canvas = document.getElementById("canvas");
-//     snake = canvas.getContext("2d");
-
-//     // calc elapsed time since last loop
-//     now = Date.now();
-//     elapsed = now - then;
-
-//     // if elapsed time has passed, draw next frame
-//     if(elapsed > fpsInterval) {
-//         then = now - (elapsed % fpsInterval)
-
-//         snake.fillStyle = objectColor;
-//         debugger
-//         snake.fillRect(this.x+this.xspeed, this.y+this.yspeed, 50, 5);
-
-//     }
-// }

@@ -1,8 +1,21 @@
+/* working font */
+@font-face {
+    font-family: trsMillion;
+    src: url(trs-million.ttf);
+}
+
+/* non working font */
+@font-face {
+    font-family: pressStart2P;
+    src: url(https://fonts.googleapis.com/css?family=Press+Start+2P);
+}
+
 body{
     margin: 0px;
     overflow: hidden;
+    font-family: 'Raleway Dots', cursive;
+    font-size: 30px;
 }
-
 
 #background{
     /* border: 2px solid black; */
@@ -16,6 +29,7 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: 0px -180px;
+    /* background-position: 50% -180px; */
     min-width: 1600px;
     max-width: 1600px;
     /* min-width: 100%;
@@ -28,27 +42,30 @@ body{
     position: absolute;
     top: 0;
     left: 0;
-
 }
 
 canvas{
     height: 100%;
     width: 100%;
-        min-width: 585px;
-    max-width: 377px;
-    min-height: 352px;
-    max-height: 228px;
+    min-width: 366px;
+    max-width: 366px;
+    min-height: 294px;
+    max-height: 294px;
     position: relative;
     left: 620px;
+    /* left: 33.5%; */
     top: 293px;
 
-
-
-
+    /* font-family: "Press Start 2P", cursive; */
+    font-family: 'trsMillion', cursive;
+    font-size: 30px;
     /* position: 200px 200px; */
-
 }
 
 
-
 @import url(https://fonts.googleapis.com/css?family=Lobster);
+
+* {
+   font-family: pressStart2P;
+   font-size: 50px;
+}
